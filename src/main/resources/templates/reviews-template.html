@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="custom-banner-image">
+    <div class="banner-overly">
+        <div class="banner-class">
+            <div class="page-center">
+            </div>
+        </div>
+    </div>
+</div>
+
+<head>
+    <title>All Video Game Reviews</title>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <style>
+        .custom-banner-image {
+            background-image: url('/images/ban.png');
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>All Game Reviews</h1>
+    </header>
+
+    <main>
+        <p>Welcome to The Game Review!</p>
+        <ul class="game">
+            <li th:each="review: ${reviewsModel}"><a th:href="@{/show-single-review(id=${review.id})}"
+                    th:text="${review.name}"></a>
+            </li>
+        </ul>
+    </main>
+
+    <footer>
+        <small>&copy WCCI Kelley Landis 2019</small>
+    </footer>
+
+</body>
+
+</Html>

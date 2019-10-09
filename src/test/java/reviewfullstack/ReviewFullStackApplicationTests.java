@@ -12,5 +12,4 @@ public class ReviewFullStackApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
 }
