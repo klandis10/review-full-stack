@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -23,94 +24,98 @@ public class JPAMappingsTest {
 	private TestEntityManager entityManager;
 	
 	@Resource
-	private GenreRepository genreRepo;
+	private TopicRepository topicRepo;
 	
-	@Resource
-	private ReviewRepository reviewRepo;
+	@Resource 
+	private GameRepository gameRepo;
 	
 	@Test
-	public void shouldSaveAndLoadGenre() {
-		Genre genre = genreRepo.save(new Genre("Action Adventure"));
-		long genreId = genre.getId();
+	public void shouldSaveAndLoadTopic() {
+		Topic topic = topicRepo.save(new Topic("topic"));
+		long topicId = topic.getId();
 		
 		entityManager.flush();
 		entityManager.clear();
 		
-		Optional<Genre> result = genreRepo.findById(genreId);
-		genre = result.get();
-		assertThat(genre.getType(), is("Action Adventure"));
-	}
-	
-	@Test
-	public void shouldGenerateGenreId() {
-		Genre genre = genreRepo.save(new Genre("Action Adventure"));
-		long genreId = genre.getId();
-		
-		entityManager.flush();
-		entityManager.clear();
-		
-		assertThat(genreId, is(greaterThan(0L)));	
+		Optional<Topic> result = topicRepo.findById(topicId);
+		topic = result.get();
+		assertThat(topic.getName(), is ("topic"));
 	}
 	
 	@Test
-	public void shouldSaveAndLoadReview() {
-		Review review = new Review("review1", "imageUrl", "description");
-		review = reviewRepo.save(review);
-		long reviewId = review.getId();
+	public void shouldGenerateTopicId() {
+		Topic topic = topicRepo.save(new Topic("topic"));
+		long topicId = topic.getId();
 		
 		entityManager.flush();
 		entityManager.clear();
 		
-		Optional<Review> result = reviewRepo.findById(reviewId);
-		review = result.get();
-		assertThat(review.getName(), is("review1"));
-	}
-	@Test
-	public void shouldGenerateReviewId() {
-		Review review = reviewRepo.save(new Review("Name", "imageUrl", "description"));
-		long reviewId = review.getId();
-		
-		entityManager.flush();
-		entityManager.clear();
-		
-		assertThat(reviewId, is(greaterThan(0L)));
-		
-	}
-	@Test //Genre = Topic, Review = Course
-	public void shouldEstablishReviewToGenreRelationship() {
-		Review tombRaider  = reviewRepo.save(new Review("Tomb Raider", "Tomb Raider is a third-person perspective survival game developed by Crystal Dynamics and published by Square Enix.", "/static/images/TR.jpg"));
-		Review re2 = reviewRepo.save(new Review("Resident Evil 2", "Resident Evil 2 is a third-person perspective survival game developed by Capcom.", "/static/images/RE2.jpg"));
-		Review bioshock = reviewRepo.save(new Review("Bioshock", "Bioshock is a first-person shooter game developed by 2K Boston and released by 2K Games.","/static/images/Bio.jpg"));
-		
-		Genre type = new Genre("Action Adventure");
-		type = genreRepo.save(type);
-		long genreId = type.getId();
-		
-		entityManager.flush();
-		entityManager.clear();
-		
-		Optional<Genre> result = genreRepo.findById(genreId);
-		type = result.get();
-		
-		assertThat(type.getReviews(), containsInAnyOrder(tombRaider, re2, bioshock));
+		assertThat(topicId, is(greaterThan(0L)));
 	}
 	
-//Keeps Crashing my project
-//	@Test
-//	public void shouldFindReviewsForGenre() {
-//		Genre actionAdventure = genreRepo.save(new Genre("Action Adventure"));
-//		Genre survivalHorror = genreRepo.save(new Genre("Survival Horror"));
-//		
-//		Review tombRaider = reviewRepo.save(new Review("Tomb Raider","static/images/TR.jpg","description"));
-//		Review re2 = reviewRepo.save(new Review("Resident Evil 2", "static/images/RE2.jpg", "description"));
-//		Review bioshock = reviewRepo.save(new Review("Bioshock", "static/images/Bio.jpg", "description"));
-//		
-//		entityManager.flush();
-//		entityManager.clear();
-//		
-//		Collection<Review> reviewsForGenre = reviewRepo.findByGenresContains(actionAdventure, survivalHorror);
-//		
-//		assertThat(reviewsForGenre, containsInAnyOrder(tombRaider, re2, bioshock));
-//	}
+	@Test
+	public void shouldSaveAndLoadGame() {
+		Game game = new Game("game name", "imageUrl", "description");
+		game = gameRepo.save(game);
+		long gameId = game.getId();
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Optional<Game> result = gameRepo.findById(gameId);
+		game = result.get();
+		assertThat(game.getName(), is ("game name"));
+	}
+	
+	@Test
+	public void shouldEstablishGameToTopicsRelationships() {
+		//topic is not the owner so we create these first
+		Topic action = topicRepo.save(new Topic("Action"));
+		Topic adventure = topicRepo.save(new Topic ("Adventure"));
+		
+		Game tombRaider = new Game ("Tomb Raider","/static/images/TR.jpg", "description", action, adventure);
+		tombRaider = gameRepo.save(tombRaider);
+		long gameId = tombRaider.getId();
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Optional<Game> result = gameRepo.findById(gameId);
+		tombRaider = result.get();
+		
+		assertThat(tombRaider.getTopics(), containsInAnyOrder(action,adventure));
+		
+	}
+	
+	@Test
+	public void shouldFindGamesForTopic() {
+		Topic horror = topicRepo.save(new Topic("Horror"));
+		
+		Game re2 = gameRepo.save(new Game("Resident Evil 2", "/static/images/RE2.jpg", "description", horror));
+		Game bioshock = gameRepo.save(new Game("Bioshock", "/static/images/Bio.jpg", "description", horror));
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Collection<Game> gamesForTopic = gameRepo.findByTopicsContains(horror);
+		
+		assertThat(gamesForTopic, containsInAnyOrder(re2, bioshock));
+	}
+	
+	@Test
+	public void shouldFindGamesForTopicsId() {
+		Topic action = topicRepo.save(new Topic("Action"));
+		long topicId = action.getId();
+		
+		Game tombRaider = gameRepo.save(new Game("Tomb Raider", "/static/images/TR.jpg", "description", action));
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Collection<Game> gamesForTopic = gameRepo.findByTopicsId(topicId);
+		
+		assertThat(gamesForTopic, containsInAnyOrder(tombRaider));
+	}
 
+	
 }

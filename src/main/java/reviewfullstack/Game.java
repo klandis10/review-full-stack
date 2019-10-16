@@ -7,38 +7,54 @@ import java.util.HashSet;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Genre {
-
+public class Game {
+	//Game = review
+	
 	@Id
 	@GeneratedValue
 	private long id;
+
+	private String name;
+	private String imageUrl;
 	
+	@Lob
+	private String description;
 	
 	@ManyToMany
-	private Collection<Review> reviews;
-	private String type;
-	
-	public Collection<Review> getReviews() {
-		return reviews;
-	}
-	public Genre() {
-	}
-	public Genre(String type, Review...reviews) {
-		this.type = type;
-		this.reviews = new HashSet<>(Arrays.asList(reviews));
-	}
+	private Collection<Topic> topics;
 	
 	public long getId() {
 		return id;
 	}
-	public Object getType() {
-		return type;
+	public String getName() {
+		return name;
 	}
 	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	public Collection<Topic> getTopics() {
+		return topics;
+	}
+	public Game() {
+	}
 
+	public Game(String name, String imageUrl, String description, Topic...topics){
+		this.name = name;
+		this.imageUrl = imageUrl;
+		this.description = description;
+		this.topics = new HashSet<>(Arrays.asList(topics));
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -54,9 +70,12 @@ public class Genre {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Genre other = (Genre) obj;
+		Game other = (Game) obj;
 		if (id != other.id)
 			return false;
 		return true;
 	}
+	
+
+
 }

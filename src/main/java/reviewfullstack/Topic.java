@@ -5,48 +5,41 @@ import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Review {
-	
+public class Topic {
+	//Topic = Category
+
 	@Id
 	@GeneratedValue
 	private long id;
 	
 	private String name;
-	private String imageUrl;
 	
-	@ManyToMany(mappedBy = "reviews")
-	private Collection<Genre> genres;
+	@ManyToMany(mappedBy = "topics")
+	private Collection<Game> games;
 	
-	public Collection<Genre> getGenres() {
-		return genres;
+	public Topic() {
 	}
-	
-	@Lob
-	private String description;
-	
+	public Collection<Game> getGames() {
+		return games;
+	}
+
+	public void setGames(Collection<Game> games) {
+		this.games = games;
+	}
+
 	public long getId() {
 		return id;
 	}
+	
 	public String getName() {
 		return name;
 	}
-	public String getImageUrl() {
-		return imageUrl;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public Review() {
-	}
 
-	public Review(String name, String imageUrl, String description) {
+	public Topic(String name) {
 		this.name = name;
-		this.imageUrl = imageUrl;
-		this.description = description;
 	}
 
 	@Override
@@ -65,10 +58,9 @@ public class Review {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Review other = (Review) obj;
+		Topic other = (Topic) obj;
 		if (id != other.id)
 			return false;
 		return true;
 	}
-	
 }
