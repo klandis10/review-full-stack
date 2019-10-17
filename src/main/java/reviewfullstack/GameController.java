@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GameController {
-	
+
 	@Resource
 	GameRepository gameRepo;
-	
+
 	@Resource
 	TopicRepository topicRepo;
 
-	@RequestMapping("/single-game")
-	public String findOneGame(@RequestParam(value="id")long id, Model model) throws GameNotFoundException {
+	@RequestMapping("/single-game?id=1")
+	public String findOneGame(@RequestParam(value = "id") long id, Model model) throws GameNotFoundException {
 		Optional<Game> game = gameRepo.findById(id);
-		
-		if(game.isPresent()) {
+
+		if (game.isPresent()) {
 			model.addAttribute("games", game.get());
 			return "game";
-			
+
 		}
 		throw new GameNotFoundException();
 	}
@@ -34,30 +34,26 @@ public class GameController {
 	public String findAllGames(Model model) {
 		model.addAttribute("games", gameRepo.findAll());
 		return ("games");
-	
-		
-		
+
 	}
 
-	public String findOneTopic(@RequestParam(value="id")long id, Model model) throws TopicNotFoundException {
+	public String findOneTopic(@RequestParam(value = "id") long id, Model model) throws TopicNotFoundException {
 		Optional<Topic> topic = topicRepo.findById(id);
-		
-		if(topic.isPresent()) {
+
+		if (topic.isPresent()) {
 			model.addAttribute("topics", topic.get());
 			model.addAttribute("games", gameRepo.findByTopicsContains(topic.get()));
 			return "topic";
 		}
 		throw new TopicNotFoundException();
-		
-		
+
 	}
 
 	@RequestMapping("/all-topics")
 	public String findAllTopics(Model model) {
 		model.addAttribute("topics", topicRepo.findAll());
 		return ("topics");
-		
-		
+
 	}
 
 }

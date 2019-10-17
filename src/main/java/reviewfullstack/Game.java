@@ -12,49 +12,51 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Game {
-	//Game = review
-	
+	// Game = review
+
 	@Id
 	@GeneratedValue
 	private long id;
 
 	private String name;
 	private String imageUrl;
-	
+
 	@Lob
 	private String description;
-	
+
 	@ManyToMany
 	private Collection<Topic> topics;
-	
+
 	public long getId() {
 		return id;
 	}
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getImageUrl() {
 		return imageUrl;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
+
 	public Collection<Topic> getTopics() {
 		return topics;
 	}
+
 	public Game() {
 	}
 
-	public Game(String name, String imageUrl, String description, Topic...topics){
+	public Game(String name, String imageUrl, String description, Topic... topics) {
 		this.name = name;
 		this.imageUrl = imageUrl;
 		this.description = description;
 		this.topics = new HashSet<>(Arrays.asList(topics));
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -62,6 +64,7 @@ public class Game {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -75,7 +78,5 @@ public class Game {
 			return false;
 		return true;
 	}
-	
-
 
 }

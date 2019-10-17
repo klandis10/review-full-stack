@@ -9,19 +9,20 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Topic {
-	//Topic = Category
+	// Topic = Category
 
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	private String name;
-	
+
 	@ManyToMany(mappedBy = "topics")
 	private Collection<Game> games;
-	
+
 	public Topic() {
 	}
+
 	public Collection<Game> getGames() {
 		return games;
 	}
@@ -33,7 +34,7 @@ public class Topic {
 	public long getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

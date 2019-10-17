@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>A topic</title>
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+
+<body>
+    <header class="main-header">Genre</header>
+    <main class="main-info">
+        <div th:each="topic: ${topics}">
+            <h2 th:text="${topic.name}"></h2>
+
+
+
+        </div>
+
+        <div th:each="game: ${topics.games}">
+            <h2>
+                <a th:href="@{/single-game(id=${game.id})}" th:text="${game.name}"></a>
+            </h2>
+        </div>
+    </main>
+
+
+</body>
+<footer>
+    <p><a href="/topics"> Back to topics</a></p>
+    <p><a href="/games">Back to Main Menu</a></p>
+    <small>&copy WCCI Kelley Landis 2019</small>
+</footer>
+
+</html>

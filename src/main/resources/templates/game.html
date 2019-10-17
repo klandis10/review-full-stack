@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Single Game</title>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="container">
+        <header class="main-header">
+            <header>
+                <h1>All Games</h1>
+                <nav class="nav-menu">
+                    <ul class="nav-menu_list">
+                        <li class="nav-menu_list-item"><a href="/all-games">Home</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main class="main-info">
+                <div th:each="game: ${games}">
+                    <p th:text="${game.name}"></p>
+                    <img th:src="${game.imageUrl}" />
+                    <p th:text="${game.description}">This is the description</p>
+            </main>
+    </div>
+
+    <footer>
+        <p th:each="topic: ${games.topics}"><a th:href="@{/topics(id=${topic.id})}" th:text="${topic.name}"></a></p>
+        <p><a href="/topics"> Back to topics</a></p>
+        <p><a href="/all-games">Back to Main Menu</a></p>
+        <small>&copy WCCI Kelley Landis 2019</small>
+    </footer>
+    </div>
+</body>
+
+</html>

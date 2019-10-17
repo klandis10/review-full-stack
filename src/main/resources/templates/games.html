@@ -11,7 +11,7 @@
 </div>
 
 <head>
-    <title>All Video Game Reviews</title>
+    <title>All Video Games</title>
     <link href="css/main.css" rel="stylesheet" type="text/css" />
     <style>
         .custom-banner-image {
@@ -22,20 +22,27 @@
 
 <body>
 
-    <header>
-        <h1>All Game Reviews</h1>
+    <header class="main-header">
+        <h1>All Game Genres</h1>
     </header>
 
-    <main>
-        <p>Welcome to The Game Review!</p>
+    <main class="main-info">
+        <p><a href="/topics">
+                Game Reviews by Genre
+            </a></p>
         <ul class="game">
-            <li th:each="review: ${reviewsModel}"><a th:href="@{/show-single-review(id=${review.id})}"
-                    th:text="${review.name}"></a>
+            <p>
+                <h3>Single Games</h3>
+            </p>
+            <li th:each="game: ${games}"><a th:href="@{/single-game(id=${game.id})}" th:text="${game.name}"></a>
             </li>
         </ul>
     </main>
 
     <footer>
+        <p th:each="topic: ${games.topics}"><a th:href="@{/topics(id=${topic.id})}" th:text="${topic.name}"></a></p>
+        <p><a href="/topics"> Back to topics</a></p>
+        <p><a href="/all-games">Back to Main Menu</a></p>
         <small>&copy WCCI Kelley Landis 2019</small>
     </footer>
 

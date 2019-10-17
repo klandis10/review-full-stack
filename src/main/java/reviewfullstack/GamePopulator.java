@@ -7,17 +7,16 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class GamePopulator {
 	private Logger log = LoggerFactory.getLogger(GamePopulator.class);
 
 	@Resource
 	private GameRepository repository;
-	
+
 	public void run(String... args) throws Exception {
-		repository.save(new Game("Tomb Raider","/static/images/TR.jpg","description"));
-		repository.save(new Game("Resident Evil 2","/static/images/RE2.jpg","description"));
-		repository.save(new Game("Bioshock","/static/images/Bio.jpg","description"));
+		repository.save(new Game("Tomb Raider", "/static/images/TR.jpg", "description"));
+		repository.save(new Game("Resident Evil 2", "/static/images/RE2.jpg", "description"));
+		repository.save(new Game("Bioshock", "/static/images/Bio.jpg", "description"));
 
 		// fetch all games
 		log.info("game found with findAll():");
