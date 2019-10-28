@@ -3,6 +3,7 @@ package reviewfullstack;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Game {
 	private Collection<Topic> topics;
 
 	public long getId() {
-		return id;
+		return id; 
 	}
 
 	public String getName() {
@@ -43,7 +44,7 @@ public class Game {
 		return description;
 	}
 
-	public Collection<Topic> getTopics() {
+	public Collection <Topic> getTopics() {
 		return topics;
 	}
 

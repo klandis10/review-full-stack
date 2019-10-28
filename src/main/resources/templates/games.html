@@ -23,7 +23,7 @@
 <body>
 
     <header class="main-header">
-        <h1>All Game Genres</h1>
+        <h1>All Game Topics</h1>
     </header>
 
     <main class="main-info">
@@ -40,8 +40,8 @@
     </main>
 
     <footer>
-        <p th:each="topic: ${games.topics}"><a th:href="@{/topics(id=${topic.id})}" th:text="${topic.name}"></a></p>
-        <p><a href="/topics"> Back to topics</a></p>
+       <!--   <p th:each="topic: ${games.topics}"><a th:href="@{/topic(id=${topic.id})}" th:text="${topic.name}"></a></p>-->
+        <p><a href="/topic"> Back to topics</a></p>
         <p><a href="/all-games">Back to Main Menu</a></p>
         <small>&copy WCCI Kelley Landis 2019</small>
     </footer>

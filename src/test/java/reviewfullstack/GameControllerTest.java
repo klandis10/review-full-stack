@@ -51,7 +51,7 @@ public class GameControllerTest {
 		when(gameRepo.findById(arbitraryGameId)).thenReturn(Optional.of(game));
 
 		underTest.findOneGame(arbitraryGameId, model);
-		verify(model).addAttribute("games", game);
+		verify(model).addAttribute("game", game);
 
 	}
 

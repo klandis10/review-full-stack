@@ -18,12 +18,12 @@ public class GameController {
 	@Resource
 	TopicRepository topicRepo;
 
-	@RequestMapping("/single-game?id=1")
+	@RequestMapping("/single-game")
 	public String findOneGame(@RequestParam(value = "id") long id, Model model) throws GameNotFoundException {
 		Optional<Game> game = gameRepo.findById(id);
 
 		if (game.isPresent()) {
-			model.addAttribute("games", game.get());
+			model.addAttribute("game", game.get());
 			return "game";
 
 		}
@@ -37,6 +37,7 @@ public class GameController {
 
 	}
 
+	@RequestMapping("/topic")
 	public String findOneTopic(@RequestParam(value = "id") long id, Model model) throws TopicNotFoundException {
 		Optional<Topic> topic = topicRepo.findById(id);
 
